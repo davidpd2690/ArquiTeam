@@ -10,14 +10,18 @@
 
 .data
 
-firstPeg:	  
-auxPeg:		  
-lastPeg:	  
+firstPeg:	.word 0 0 0 0 0 0 0 0	  
+auxPeg:		.word 0 0 0 0 0 0 0 0
+lastPeg:	.word 0 0 0 0 0 0 0 0
 		
 
 .text
 
 main:
+	
+	la $t1, firstPeg
+	la $t2, auxPeg
+	la $t3, lastPeg
 	
 	la $a1, firstPeg	# first peg - a1
 	la $a2, auxPeg		# aux peg - a2
