@@ -43,34 +43,35 @@ hanoi:
 	addi $sp, $sp, -8	# reserves space in stack 
 	sw $ra, 0($sp)		# stores return address in stack
 	sw $a0, 4($sp)		# stores number of discs in stack
-	beq $t0, $a0, change   
+	#beq $t0, $a0, change   
 		
-	#beq $a0,$t9, one	# if number of discs == 1, jump to one
+	#bne $a0,$t9, basecase	# if number of discs == 1, jump to one
 		
-change:
+#change:
+moveDiscs:
 	add $a1, $a1, -4	#first peg position
 	lw $t4, 0($a1)		#load what is in the first pegin a temp 
 	sw $zero, 0($a1)	#remove disc from tower
 	sw $t4, 0($a3)		#move disc from first peg to last peg
 	add $a3, $a3, 4		# we move to the next space on the last peg
-	
-	#bne $ , $ ,
-	
-
-moveDiscs:
-
 	add $t1, $a2, $zero 	# storing value in aux peg to temp reg
 	add $a2, $a3, $zero	# moves discs from last peg to aux peg
 	add $a3, $t1, $zero	# brings back value from temp reg(auxPeg) and moves the discs to last peg
 	addi $a0,$a0, -1	# number of discs -1
 	jal hanoi		# recursive call back to hanoi
 	
-	lw $ra, 0($sp)		# loads return address in stack
-	lw $a0, 4($sp)		# loads number of discs in stack
-	lw $a1, 8($sp)		# loads firstpeg in stack
-	lw $a2, 12($sp)		# loads auxpeg in stack
-	lw $a3, 16($sp)		# loads lastpeg in stack
-	addi $sp, $sp, 20	# restores space in stack 
+	
+
+#moveDiscs:
+
+	
+	
+	#lw $ra, 0($sp)		# loads return address in stack
+	#lw $a0, 4($sp)		# loads number of discs in stack
+	#lw $a1, 8($sp)		# loads firstpeg in stack
+	#lw $a2, 12($sp)		# loads auxpeg in stack
+	#lw $a3, 16($sp)		# loads lastpeg in stack
+	#addi $sp, $sp, 20	# restores space in stack 
 
 moveAgain:
 	
@@ -89,6 +90,6 @@ moveAgain:
 	jr $ra			# back to register address
 	
 basecase:
-
+	j exit
 
 exit:
