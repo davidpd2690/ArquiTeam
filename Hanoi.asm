@@ -22,7 +22,7 @@ main:
 	addi $a2, $zero, 0x10010020		# reserving address for aux peg - a2
 	addi $a3, $zero, 0x10010040		# reserving address for last peg - a3
 	
-	addi $a0, $zero, 6	# number of discs - a0
+	addi $a0, $zero, 4	# number of discs - a0
 	addi $t9, $zero, 1	# loads value 1 for base case comparison in temp reg t9
 	add $t0, $a0, $zero	# stores number of discs to temp reg t0
 
@@ -43,10 +43,18 @@ hanoi:
 	addi $sp, $sp, -8	# reserves space in stack 
 	sw $ra, 0($sp)		# stores return address in stack
 	sw $a0, 4($sp)		# stores number of discs in stack
-	
+	beq $t0, $a0, change   
 		
 	#beq $a0,$t9, one	# if number of discs == 1, jump to one
 		
+change:
+	add $a1, $a1, -4	#first peg position
+	lw $t4, 0($a1)		#load what is in the first pegin a temp 
+	sw $zero, 0($a1)	#remove disc from tower
+	sw $t4, 0($a3)		#move disc from first peg to last peg
+	add $a3, $a3, 4		# we move to the next space on the last peg
+	
+	#bne $ , $ ,
 	
 
 moveDiscs:
@@ -66,12 +74,10 @@ moveDiscs:
 
 moveAgain:
 	
-	addi $sp, $sp, -20	# reserves space in stack 
+	addi $sp, $sp, -8	# reserves space in stack 
 	sw $ra, 0($sp)		# stores return address in stack
 	sw $a0, 4($sp)		# stores number of discs in stack
-	sw $a1, 8($sp)		# stores firstpeg in stack
-	sw $a2, 12($sp)		# stores auxpeg in stack
-	sw $a3, 16($sp)		# stores lastpeg in stack
+		
 	
 	add $t2, $a1, $zero	# save firstpeg to temp reg t2
 	add $t3, $a2, $zero	# save auxpeg to temp reg t3
@@ -81,5 +87,8 @@ moveAgain:
 	addi $a0, $a0, -1	# number of discs -1
 	
 	jr $ra			# back to register address
+	
+basecase:
+
 
 exit:
