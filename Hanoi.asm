@@ -21,9 +21,9 @@
 	addi $a2, $zero, 0x10010020		# reserving address for aux peg - a2
 	addi $a3, $zero, 0x10010040		# reserving address for last peg - a3
 	
-	addi $a0, $zero, 8	# number of discs - a0
+	addi $s0, $zero, 3	# number of discs - a0
 	addi $t9, $zero, 1	# loads value 1 for base case comparison in temp reg t9
-	add $t0, $a0, $zero	# stores number of discs to temp reg t0
+	add $t0, $s0, $zero	# stores number of discs to temp reg t0
 	
 Loop:	#loop to add discs into first peg
 	sw $t0, 0($a1)		# stores number of discs to first Peg
@@ -38,12 +38,12 @@ hanoi:
 
 	addi $sp, $sp, -8	# reserves space in stack 
 	sw $ra, 0($sp)		# stores return address in stack
-	sw $a0, 4($sp)		# stores number of discs in stack
+	sw $s0, 4($sp)		# stores number of discs in stack
 		
-	beq $a0,$t9, baseCase	# if number of discs == 1, jump to base case
+	beq $s0,$t9, baseCase	# if number of discs == 1, jump to base case
 		
 				
-	addi $a0, $a0, -1	# number of discs -1
+	addi $s0, $s0, -1	# number of discs -1
 	add $t1, $a2, $zero 	# storing value in aux peg to temp reg
 	add $a2, $a3, $zero	# moves discs from last peg to aux peg
 	add $a3, $t1, $zero	# brings back value from temp reg(auxPeg) and moves the discs to last peg
@@ -76,8 +76,8 @@ baseCase:
 nonRec:
 	
 	add $t8, $zero, $zero	# set recursion indicator to zero
-	lw $a0, 4($sp)		# load disc value 
-	addi $a0, $a0, -1	# number of discs -1
+	lw $s0, 4($sp)		# load disc value 
+	addi $s0, $s0, -1	# number of discs -1
 	add $t1, $a1, $zero	# stores value of firstpeg to tempreg
 	add $a1, $a2, $zero	# moves from auxpeg to firstpeg
 	add $a2, $t1, $zero 	# brings bck value in tempreg and places it in auxpeg 
